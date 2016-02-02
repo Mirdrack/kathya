@@ -1,0 +1,18 @@
+{
+  "name": "kathya",
+  "version": "1.0.0",
+  "description": "Socket IO - Modbus bridge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mirdrack",
+  "license": "ISC",
+  "dependencies": {
+    "jsmodbus": "^0.5.1",
+    "nodemailer": "^2.1.0",
+    "request": "^2.69.0",
+    "smtp-connection": "^2.1.0",
+    "socket.io-client": "^1.4.5"
+  }
+}
