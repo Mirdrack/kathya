@@ -9,8 +9,8 @@ socket.on('connect', function () {
 
 	socket.on('turn-on-server', function (data) {
 
-		console.log('Turn On');
 
+		console.log('Turn On');
 		/*// Create reusable transporter object using the default SMTP transport
 		var transporter = nodemailer.createTransport('smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com');
 
@@ -32,42 +32,35 @@ socket.on('connect', function () {
 				console.log('Message sent: ' + info.response);
 		});*/
 
-		/*var client = modbus.createTCPClient(502, '127.0.0.1', function (err) {
-		    if (err) {
-		        
-		        console.log(err);
-		        process.exit(0);
-		    }
+		var client = modbus.createTCPClient(config.plcPort, config.plcAddress, function (error) {
+
+			if(error)
+				console.log(err);
 		});
 
 		client.writeSingleRegister(10, 1, function (response, error) {
-		    
-		    if(error)
-		    	console.log(error);
-		    console.log(response);
+
+			if(error)
+				console.log(error);
+			console.log(response);
 		});
-		client.close();*/
-
-
+		client.close();
 	});
 
 	socket.on('turn-off-server', function (data) {
 
 		console.log('Turn Off');
+		var client = modbus.createTCPClient(config.plcPort, config.plcAddress, function (error) {
 
-		var client = modbus.createTCPClient(502, '127.0.0.1', function (err) {
-		    if (err) {
-		        
-		        console.log(err);
-		        process.exit(0);
-		    }
+			if(error)
+				console.log(err);
 		});
 
 		client.writeSingleRegister(10, 0, function (response, error) {
-		    
-		    if(error)
-		    	console.log(error);
-		    console.log(response);
+
+			if(error)
+				console.log(error);
+			console.log(response);
 		});
 		client.close();
 	});
