@@ -12,7 +12,7 @@ modbus.setLogger(function (msg) { util.log(msg); } );
 
 socket.on('connect', function () {
 
-	console.log('Connected to the server');
+	console.log('Connected to Samantha');
 
 	socket.on('turn-on-server', function (data) {
 
@@ -38,20 +38,6 @@ socket.on('connect', function () {
 			else
 				console.log('Message sent: ' + info.response);
 		});*/
-
-		/*var client = modbus.createTCPClient(config.plcPort, config.plcAddress, function (error) {
-
-			if(error)
-				console.log(error);
-		});
-
-		client.writeSingleRegister(2, 1, function (response, error) {
-
-			if(error)
-				console.log(error);
-			console.log(response);
-		});
-		client.close();*/
 
 		var client      = modbus.createTCPClient(502, '192.168.100.15'),
 		    cntr        = 0,
@@ -118,7 +104,7 @@ socket.on('connect', function () {
 
 		client.on('close', function () {
 
-		    console.log('closed');
+		    console.log('Modbus connection closed');
 
 		}.bind(this));
 
