@@ -166,10 +166,10 @@ function polling ()
 					message: 'New read',
 					read: read, 
 				};
-				
+
 				console.log(data);
 
-				//socket.emit('new-read', data);
+				socket.emit('new-read', data);
 				
 			}
 	        closeClient();
