@@ -53,7 +53,7 @@ socket.on('connect', function () {
 		});
 		client.close();*/
 
-		var client      = modbus.createTCPClient(502, '192.168.100.215'),
+		var client      = modbus.createTCPClient(502, '192.168.100.15'),
 		    cntr        = 0,
 		    closeClient = function () {
 		        cntr += 1;
@@ -78,7 +78,7 @@ socket.on('connect', function () {
     
 			console.log('Connected to PLC');
 
-		    client.writeSingleRegister(2, 1, function (response, error) {
+		    client.writeSingleRegister(5, 1, function (response, error) {
 
 		        if(error)
 					console.log(error);
@@ -107,7 +107,7 @@ socket.on('connect', function () {
 		});
 		client.close();*/
 
-		var client      = modbus.createTCPClient(502, '192.168.100.215'),
+		var client      = modbus.createTCPClient(502, '192.168.100.15'),
 		    cntr        = 0,
 		    closeClient = function () {
 		        cntr += 1;
@@ -132,7 +132,7 @@ socket.on('connect', function () {
     
 			console.log('Connected to PLC');
 
-		    client.writeSingleRegister(2, 0, function (response, error) {
+		    client.writeSingleRegister(5, 0, function (response, error) {
 
 		        if(error)
 					console.log(error);
