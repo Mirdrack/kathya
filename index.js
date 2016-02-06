@@ -7,7 +7,7 @@ var util = require('util');
 // override logger function
 modbus.setLogger(function (msg) { util.log(msg); } );
 
-setInterval(polling, 1000 * 60 * 1);
+setInterval(polling, config.pollingTime);
 
 
 socket.on('connect', function () {
@@ -119,7 +119,7 @@ socket.on('connect', function () {
 
 function polling ()
 { 
-	console.log('Hello');
+	console.log('Polling data');
 
 	var client      = modbus.createTCPClient(config.plc.port, config.plc.address),
 	    cntr        = 0,
@@ -146,13 +146,14 @@ function polling ()
 
 		console.log('Connected to PLC[Read]');
 
-	    client.readHoldingRegister(10, 14, function (response, error) {
+	    client.readHoldingRegister(10, 5, function (response, error) {
 
 	        if(error)
 				console.log(error);
 			else
 			{
 				console.log(response);
+				console.log(response.register[0]);
 				
 			}
 	        closeClient();
