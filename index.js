@@ -153,7 +153,23 @@ function polling ()
 			else
 			{
 				console.log(response);
-				console.log(response.register[0]);
+				var read = {
+					station_id: 1,
+					voltage: response.register[0],
+					dynamic_level: response.register[1],
+					current: (response.register[2] / 100),
+					power: (response.register[3] / 100),
+				};
+
+				var data = {
+					event_type: 'new-read',
+					message: 'New read',
+					read: read, 
+				};
+				
+				console.log(data);
+
+				//socket.emit('new-read', data);
 				
 			}
 	        closeClient();
