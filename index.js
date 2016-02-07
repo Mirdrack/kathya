@@ -21,13 +21,13 @@ socket.on('connect', function () {
 		// Create reusable transporter object using the default SMTP transport
 		var transporter = nodemailer.createTransport('smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com');
 
-		/*// Setup E-mail data
+		// Setup E-mail data
 		var mailOptions = {
 			from: 'Aitana Studios <aitanastudios@gmail.com>',
-			to: 'mirdrack@gmail.com, alexalvaradof@gmail.com, soporte@aitanastudios.com',
-			subject: 'Hello',
-			text: 'Hello world',
-			html: '<b>Hello world</b>',
+			to: 'alexalvaradof@gmail.com, soporte@aitanastudios.com',
+			subject: 'Encendido del pozo',
+			text: 'El pozo ha sido encendido mendiante el portal web.',
+			html: '<b>El pozo ha sido encendido mendiante el portal web</b>',
 		};
 
 		// Send mail with defined transport object
@@ -37,7 +37,7 @@ socket.on('connect', function () {
 				console.log(error);
 			else
 				console.log('Message sent: ' + info.response);
-		});*/
+		});
 
 		var client      = modbus.createTCPClient(config.plc.port, config.plc.address),
 		    cntr        = 0,
