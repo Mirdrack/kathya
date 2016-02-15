@@ -1,6 +1,18 @@
 var config = {};
 
+config.pollingTime = 1000 * 60 * 1;
+config.monitoringTime = 1000 * 60 * 1;
 config.socketAddress = 'http://localhost:8000';
-config.plcAddress = '127.0.0.1';
+config.smtpAccount = 'smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com';
+
+config.plc = {};
+config.plc.address = '192.168.100.215';
+config.plc.port = 502;
+config.plc.statusReg = 5;
+config.plc.doorReg = 6;
+
+config.plc.alarm = {};
+config.plc.alarm.firedReg = 7;
+config.plc.alarm.statusReg = 8;
 
 module.exports = config;

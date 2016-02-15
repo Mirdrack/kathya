@@ -11,7 +11,7 @@ modbus.setLogger(function (msg) { util.log(msg); } );
 var client = modbus.createTCPClient(config.plc.port, config.plc.address);
 
 // Create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport('smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com');
+var transporter = nodemailer.createTransport(config.smtpAccount);
 
 // Station status
 var station = {
