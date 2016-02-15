@@ -25,8 +25,8 @@ var station = {
 
 
 
-//setInterval(polling, 1000 * 15);
-setInterval(monitoring, 1000 * 5);
+setInterval(polling, config.pollingTime);
+setInterval(monitoring, config.monitoringTime);
 
 socket.on('connect', function () {
 
@@ -92,10 +92,7 @@ function polling() {
 				message: 'New read',
 				read: read, 
 			};
-
-			// console.log(data);
-			// socket.emit('new-read', data);
-			
+			socket.emit('new-read', data);
 		}
     }.bind(this));
 }
