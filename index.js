@@ -1,179 +1,156 @@
 var config = require('./config');
-var socket = require('socket.io-client')(config.socketAddress);
+var socket = require('socket.io-client')(config.socketAddress, { query: 'clientName=Kathya' });
 var nodemailer = require('nodemailer');
 var modbus = require('jsmodbus');
 var util = require('util');
 
-// override logger function
+// Override logger function
 modbus.setLogger(function (msg) { util.log(msg); } );
 
-setInterval(polling, config.pollingTime);
+// We set the Modbus client
+var client = modbus.createTCPClient(config.plc.port, config.plc.address);
 
+// Create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport('smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com');
+
+// Station status
+var station = {
+	status: 0,
+	door: 0,
+	alarm: {
+		status: 1,
+		fired: 1,
+	},
+};
+
+
+
+//setInterval(polling, 1000 * 15);
+setInterval(monitoring, 1000 * 5);
 
 socket.on('connect', function () {
 
-	console.log('Connected to Samantha');
-
-	socket.on('turn-on-server', function (data) {
-
-
-		console.log('Turn On');
-		// Create reusable transporter object using the default SMTP transport
-		var transporter = nodemailer.createTransport('smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com');
-
-		// Setup E-mail data
-		var mailOptions = {
-			from: 'Aitana Studios <aitanastudios@gmail.com>',
-			to: 'alexalvaradof@gmail.com, soporte@aitanastudios.com',
-			subject: 'Encendido del pozo',
-			text: 'El pozo ha sido encendido mendiante el portal web.',
-			html: '<b>El pozo ha sido encendido mendiante el portal web</b>',
-		};
-
-		// Send mail with defined transport object
-		transporter.sendMail(mailOptions, function (error, info) {
-
-			if(error)
-				console.log(error);
-			else
-				console.log('Message sent: ' + info.response);
-		});
-
-		var client      = modbus.createTCPClient(config.plc.port, config.plc.address),
-		    cntr        = 0,
-		    closeClient = function () {
-		        cntr += 1;
-		        if (cntr === 5) {
-		            client.close();
-		        }
-		    };
-
-		client.on('close', function () {
-
-		    console.log('Closed connection');
-
-		}.bind(this));
-
-		var closeClient = function () {
-
-		    client.close();
-
-		}.bind(this);
-
-		client.on('connect', function () { 
-    
-			console.log('Connected to PLC');
-
-		    client.writeSingleRegister(config.plc.statusReg, 1, function (response, error) {
-
-		        if(error)
-					console.log(error);
-				console.log(response);
-		        closeClient();
-
-		    }.bind(this));
-		}.bind(this));
-
-	});
-
-	socket.on('turn-off-server', function (data) {
-
-		console.log('Turn Off');
-		var client      = modbus.createTCPClient(config.plc.port, config.plc.address),
-		    cntr        = 0,
-		    closeClient = function () {
-		        cntr += 1;
-		        if (cntr === 5) {
-		            client.close();
-		        }
-		    };
-
-		client.on('close', function () {
-
-		    console.log('Closed connection');
-
-		}.bind(this));
-
-		var closeClient = function () {
-
-		    client.close();
-
-		}.bind(this);
-
-		client.on('connect', function () { 
-    
-			console.log('Connected to PLC');
-
-		    client.writeSingleRegister(config.plc.statusReg, 0, function (response, error) {
-
-		        if(error)
-					console.log(error);
-				console.log(response);
-		        closeClient();
-
-		    }.bind(this));
-		}.bind(this));
-
-	});
+	console.log('Connected to Samantha...');
 });
 
-function polling ()
-{ 
-	console.log('Polling data');
+socket.on('activate-alarm-server', function () {
 
-	var client      = modbus.createTCPClient(config.plc.port, config.plc.address),
-	    cntr        = 0,
-	    closeClient = function () {
-	        cntr += 1;
-	        if (cntr === 5) {
-	            client.close();
-	        }
-	    };
+	client.writeSingleRegister(config.plc.alarm.statusReg, 1, function (response, error) {
 
-	client.on('close', function () {
-
-	    console.log('Closed connection[Read]');
+		if(error)
+			console.log(error);
+		else
+			station.alarm.status = true;
 
 	}.bind(this));
 
-	var closeClient = function () {
+});
 
-	    client.close();
+socket.on('deactivate-alarm-server', function () {
 
-	}.bind(this);
+	client.writeSingleRegister(config.plc.alarm.statusReg, 0, function (response, error) {
 
-	client.on('connect', function () { 
+		if(error)
+			console.log(error);
+		else
+			station.alarm.status = false;
 
-		console.log('Connected to PLC[Read]');
+	}.bind(this));
 
-	    client.readHoldingRegister(10, 5, function (response, error) {
+});
 
-	        if(error)
-				console.log(error);
-			else
+
+var closeClient = function () {
+
+	console.log('Closed connection with PLC.');
+    cntr += 1;
+	if (cntr === 5) {
+		client.close();
+	}
+}.bind(this);
+
+function polling() {
+
+	console.log('Polling data...');
+	client.readHoldingRegister(10, 5, function (response, error) {
+
+		if(error)
+			console.log(error);
+		else
+		{
+			console.log(response);
+			var read = {
+				station_id: 1,
+				voltage: response.register[0],
+				dynamic_level: response.register[1],
+				current: (response.register[2] / 100),
+				power: (response.register[3] / 100),
+			};
+
+			var data = {
+				event_type: 'new-read',
+				message: 'New read',
+				read: read, 
+			};
+
+			// console.log(data);
+			// socket.emit('new-read', data);
+			
+		}
+    }.bind(this));
+}
+
+function monitoring() {
+
+	console.log('Monitoring station status...');
+	client.readHoldingRegister(5, 4, function (response, error) {
+
+		if(error)
+			console.log(error);
+		else
+		{
+			if(station.alarm.fired == 1 && response.register[2] == 0)
 			{
-				console.log(response);
-				var read = {
+				var alarm = {
 					station_id: 1,
-					voltage: response.register[0],
-					dynamic_level: response.register[1],
-					current: (response.register[2] / 100),
-					power: (response.register[3] / 100),
+					alarm_type_id: 1,
 				};
 
 				var data = {
-					event_type: 'new-read',
-					message: 'New read',
-					read: read, 
+					event_type: 'alarm-triggered',
+					message: 'The alarm has been triggered',
+					alarm: alarm,
 				};
 
-				console.log(data);
-
-				socket.emit('new-read', data);
-				
+				socket.emit('alarm-triggered', data);
+				sendAlarmMail();
 			}
-	        closeClient();
+			station.status = response.register[0];
+			station.door = response.register[1];
+			station.alarm.fired = response.register[2];
+			station.alarm.status = response.register[3];
+			console.log(response);
+			console.log(station);
+			console.log("\n");
+		}
+    }.bind(this));
+}
 
-	    }.bind(this));
-	}.bind(this)); 
+function sendAlarmMail() {
+
+	var mailOptions = {
+		from: 'Aitana Studios <aitanastudios@gmail.com>',
+		to: 'alexalvaradof@gmail.com, soporte@aitanastudios.com',
+		subject: 'Alarma en el pozo!',
+		text: 'Alarma. La seguridad del pozo se ha visto compremetida',
+		html: '<b>Alarma. La seguridad del pozo se ha visto compremetida</b>',
+	};
+
+	transporter.sendMail(mailOptions, function (error, info) {
+
+		if(error)
+			console.log(error);
+		else
+			console.log('Message sent: ' + info.response);
+	});
 }
