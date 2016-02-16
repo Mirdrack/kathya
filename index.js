@@ -142,6 +142,7 @@ function monitoring() {
 					alarm: alarm,
 				};
 
+				console.log('alarm-triggered');
 				socket.emit('alarm-triggered', data);
 				sendAlarmMail();
 			}
@@ -161,6 +162,7 @@ function monitoring() {
 					event: event,
 				};
 
+				console.log('turn-off');
 				socket.emit('turn-off', data);
 			}
 
@@ -179,6 +181,7 @@ function monitoring() {
 					event: event,
 				};
 
+				console.log('turn-on');
 				socket.emit('turn-on', data);
 			}
 
@@ -197,6 +200,7 @@ function monitoring() {
 					event: event,
 				};
 
+				console.log('deactivate-alarm');
 				socket.emit('deactivate-alarm', data);
 			}
 
@@ -215,6 +219,7 @@ function monitoring() {
 					event: event,
 				};	
 
+				console.log('activate-alarm');
 				socket.emit('activate-alarm', data);
 			}
 
