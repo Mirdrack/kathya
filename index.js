@@ -145,6 +145,79 @@ function monitoring() {
 				socket.emit('alarm-triggered', data);
 				sendAlarmMail();
 			}
+
+			if(response.register[0] == 0 && station.status == 1)
+			{
+				var event = {
+					user_id: 3,
+					station_id: 1,
+					event_type_id: 2,
+					ip_address: '127.0.0.1',
+				};
+
+				var data = {
+					event_type: 'station-off',
+					message: 'The station has been turned off',
+					event: event,
+				};
+
+				socket.emit('turn-off', data);
+			}
+
+			if(response.register[0] == 1 && station.status == 0)
+			{
+				var event = {
+					user_id: 3,
+					station_id: 1,
+					event_type_id: 1,
+					ip_address: '127.0.0.1',
+				};
+
+				var data = {
+					event_type: 'station-on',
+					message: 'The station has been turned on',
+					event: event,
+				};
+
+				socket.emit('turn-on', data);
+			}
+
+			if(response.register[3] == 0 && station.alarm.status == 1)
+			{
+				var event = {
+					user_id: 3,
+					station_id: 1,
+					event_type_id: 4,
+					ip_address: '127.0.0.1',
+				};
+
+				var data = {
+					event_type: 'alarm-deactivated',
+					message: 'Alarm has been activated',
+					event: event,
+				};
+
+				socket.emit('deactivate-alarm', data);
+			}
+
+			if(response.register[3] == 1 && station.alarm.status == 0)
+			{
+				var event = {
+					user_id: 3,
+					station_id: 1,
+					event_type_id: 3,
+					ip_address: '127.0.0.1',
+				};
+
+				var data = {
+					event_type: 'alarm-activated',
+					message: 'Alarm has been activated',
+					event: event,
+				};	
+
+				socket.emit('activate-alarm', data);
+			}
+
 			station.status = response.register[0];
 			station.door = response.register[1];
 			station.alarm.fired = response.register[2];
