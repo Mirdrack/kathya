@@ -25,7 +25,7 @@ var station = {
 
 
 
-setInterval(polling, config.pollingTime);
+// setInterval(polling, config.pollingTime);
 setInterval(monitoring, config.monitoringTime);
 
 socket.on('connect', function () {
@@ -53,12 +53,35 @@ socket.on('deactivate-alarm-server', function () {
 		if(error)
 			console.log(error);
 		else
-			station.alarm.status = false;
+			station.alarm.status = 0;
 
 	}.bind(this));
 
 });
 
+socket.on('turn-on-server', function (data) {
+
+	client.writeSingleRegister(config.plc.statusReg, 1, function (response, error) {
+
+        if(error)
+			console.log(error);
+		else
+			station.status = 1;
+
+    }.bind(this));
+});
+
+socket.on('turn-off-server', function (data) {
+
+	client.writeSingleRegister(config.plc.statusReg, 0, function (response, error) {
+
+        if(error)
+			console.log(error);
+		else
+			station.status = 0;
+
+    }.bind(this));
+});
 
 var closeClient = function () {
 
