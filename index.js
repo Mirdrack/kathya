@@ -25,7 +25,7 @@ var station = {
 
 
 
-// setInterval(polling, config.pollingTime);
+setInterval(polling, config.pollingTime);
 setInterval(monitoring, config.monitoringTime);
 
 socket.on('connect', function () {
