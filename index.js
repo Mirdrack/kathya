@@ -61,7 +61,7 @@ var station = {
 
 init();
 
-//setInterval(polling, config.pollingTime);
+setInterval(polling, config.pollingTime);
 setInterval(monitoring, config.monitoringTime);
 
 socket.on('connect', function () {
@@ -232,7 +232,7 @@ function polling() {
 	console.log('Polling data...');
 	var block = config.plc.dataBlockAddress;
 	var size = config.plc.dataBlockSize;
-	client.readHoldingRegister(block, size, function (response, error) {
+	client.readHoldingRegister(16, 4, function (response, error) {
 
 		if(error)
 			console.log(error);
