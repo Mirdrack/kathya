@@ -1,18 +1,48 @@
 var config = {};
 
+config.userId = 3;
+config.stationId = 1;
 config.pollingTime = 1000 * 60 * 1;
-config.monitoringTime = 1000 * 60 * 1;
-config.socketAddress = 'http://localhost:8000';
+config.monitoringTime = 1000 * 10 * 1;
+config.socketAddress = 'http://samantha.app';
 config.smtpAccount = 'smtps://aitanastudios%40gmail.com:wAd4E6adruge@smtp.gmail.com';
+config.defaultCooldown = 60; // Minutes
 
 config.plc = {};
-config.plc.address = '192.168.100.215';
+config.plc.address = '192.168.100.15';
 config.plc.port = 502;
-config.plc.statusReg = 5;
-config.plc.doorReg = 6;
+config.plc.dataBlockAddress = 1;
+config.plc.dataBlockSize = 15;
 
-config.plc.alarm = {};
-config.plc.alarm.firedReg = 7;
-config.plc.alarm.statusReg = 8;
+// Pleiades
+// Door Driver Room
+config.maya = {}; 
+config.maya.physic = 1;
+config.maya.alarm = 2;
+config.maya.monitor = 3;
+
+// Move Sensor
+config.electra = {};
+config.electra.physic = 4;
+config.electra.alarm = 5;
+config.electra.monitor = 6;
+
+// Hesperides
+// Door Irrigation Room
+config.hestia = {};
+config.hestia.physic = 7;
+config.hestia.alarm = 8;
+config.hestia.monitor = 9;
+
+// Move Sensor Irrigation
+config.aretusa = {};
+config.aretusa.physic = 10;
+config.aretusa.alarm = 11;
+config.aretusa.monitor = 12;
+
+// VLT
+config.vlt = {};
+config.vlt.status = 13;
+config.vlt.control = 15;
 
 module.exports = config;
