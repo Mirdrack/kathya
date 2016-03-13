@@ -17,12 +17,11 @@ var sensorManager = function (mailService, config) {
 					alarm: alarm,
 				};
 
-				console.log('alarm-triggered');
+				console.log('alarm-triggered-maya');
 				//socket.emit('alarm-triggered', data);
-				mailService.sendMayaAlarm();
 			}
 
-			if(station.maya.monitoring == 0 && response.register[2] == 1)
+			/*if(station.maya.monitoring == 0 && response.register[2] == 1)
 			{
 				var event = {
 					user_id: config.userId,
@@ -37,17 +36,18 @@ var sensorManager = function (mailService, config) {
 					event: event,
 				};	
 
-				console.log('activate-alarm');
 				//socket.emit('activate-alarm', data);
-			}
+				console.log('activate-alarm-m');
+			}*/
 
-			if(station.maya.monitoring == 1 && response.register[2] == 0)
+			/*if(station.maya.monitoring == 1 && response.register[2] == 0)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
 					event_type_id: 4,
 					ip_address: '127.0.0.1',
+					alarm_cooldown: config.defaultCooldown,
 				};
 
 				var data = {
@@ -56,9 +56,9 @@ var sensorManager = function (mailService, config) {
 					event: event,
 				};
 
-				console.log('deactivate-alarm');
-				//socket.emit('deactivate-alarm', data);
-			}
+				// socket.emit('deactivate-alarm', data);
+				console.log('deactivate-alarm-m');
+			}*/
 		},
 
 		checkElectra: function (station, socket, response) {
@@ -76,12 +76,11 @@ var sensorManager = function (mailService, config) {
 					alarm: alarm,
 				};
 
-				console.log('alarm-triggered');
+				console.log('alarm-triggered-electra');
 				//socket.emit('alarm-triggered', data);
-				mailService.sendElectraAlarm();
 			}
 
-			if(station.electra.monitoring == 0 && response.register[5] == 1)
+			/*if(station.electra.monitoring == 0 && response.register[5] == 1)
 			{
 				var event = {
 					user_id: config.userId,
@@ -96,8 +95,8 @@ var sensorManager = function (mailService, config) {
 					event: event,
 				};	
 
-				console.log('activate-alarm');
-				//socket.emit('activate-alarm', data);
+				console.log('activate-alarm-e');
+				// socket.emit('activate-alarm', data);
 			}
 
 			if(station.electra.monitoring == 1 && response.register[5] == 0)
@@ -107,6 +106,7 @@ var sensorManager = function (mailService, config) {
 					station_id: config.stationId,
 					event_type_id: 6,
 					ip_address: '127.0.0.1',
+					alarm_cooldown: config.defaultCooldown,
 				};
 
 				var data = {
@@ -115,9 +115,9 @@ var sensorManager = function (mailService, config) {
 					event: event,
 				};
 
-				console.log('deactivate-alarm');
-				//socket.emit('deactivate-alarm', data);
-			}
+				console.log('deactivate-alarm-e');
+				// socket.emit('deactivate-alarm', data);
+			}*/
 		},
 
 		checkHestia: function (station, socket, response) {
@@ -135,12 +135,11 @@ var sensorManager = function (mailService, config) {
 					alarm: alarm,
 				};
 
-				console.log('alarm-triggered');
+				console.log('alarm-triggered-hestia');
 				//socket.emit('alarm-triggered', data);
-				mailService.sendHestiaAlarm();
 			}
 
-			if(station.hestia.monitoring == 0 && response.register[8] == 1)
+			/*if(station.hestia.monitoring == 0 && response.register[8] == 1)
 			{
 				var event = {
 					user_id: config.userId,
@@ -159,7 +158,7 @@ var sensorManager = function (mailService, config) {
 				//socket.emit('activate-alarm', data);
 			}
 
-			if(station.hestia.monitoring == 1 && response.register[2] == 0)
+			if(station.hestia.monitoring == 1 && response.register[8] == 0)
 			{
 				var event = {
 					user_id: config.userId,
@@ -171,12 +170,13 @@ var sensorManager = function (mailService, config) {
 				var data = {
 					event_type: 'alarm-deactivated',
 					message: 'Door irrigation room alarm has been deactivated',
+					alarm_cooldown: config.defaultCooldown,
 					event: event,
 				};
 
-				console.log('deactivate-alarm');
+				console.log('deactivate-alarm-h');
 				//socket.emit('deactivate-alarm', data);
-			}
+			}*/
 		},
 
 		checkAretusa: function (station, socket, response) {
@@ -194,12 +194,11 @@ var sensorManager = function (mailService, config) {
 					alarm: alarm,
 				};
 
-				console.log('alarm-triggered');
+				console.log('alarm-triggered-aretusa');
 				//socket.emit('alarm-triggered', data);
-				mailService.sendHestiaAlarm();
 			}
 
-			if(station.hestia.monitoring == 0 && response.register[11] == 1)
+			/*if(station.aretusa.monitoring == 0 && response.register[11] == 1)
 			{
 				var event = {
 					user_id: config.userId,
@@ -214,17 +213,18 @@ var sensorManager = function (mailService, config) {
 					event: event,
 				};	
 
-				console.log('activate-alarm');
+				console.log('activate-alarm-a');
 				//socket.emit('activate-alarm', data);
 			}
 
-			if(station.maya.monitoring == 1 && response.register[11] == 0)
+			if(station.aretusa.monitoring == 1 && response.register[11] == 0)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
 					event_type_id: 10,
 					ip_address: '127.0.0.1',
+					alarm_cooldown: config.defaultCooldown,
 				};
 
 				var data = {
@@ -233,9 +233,9 @@ var sensorManager = function (mailService, config) {
 					event: event,
 				};
 
-				console.log('deactivate-alarm');
+				console.log('deactivate-alarm-a');
 				//socket.emit('deactivate-alarm', data);
-			}
+			}*/
 		},
 
 		checkVlt: function (station, socket, response) {

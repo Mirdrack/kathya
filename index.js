@@ -59,6 +59,7 @@ var station = {
 	},
 };
 
+init();
 
 //setInterval(polling, config.pollingTime);
 setInterval(monitoring, config.monitoringTime);
@@ -68,27 +69,81 @@ socket.on('connect', function () {
 	console.log('Connected to Samantha...');
 });
 
-socket.on('activate-alarm-server', function () {
+socket.on('activate-alarm-server', function (data) {
 
-	client.writeSingleRegister(config.maya.monitor, 1, function (response, error) {
+	var alarmSensor = null;
+	
+	if(data.event_type_id == 3)
+		alarmSensor = config.maya.monitor;
+
+	if(data.event_type_id == 5)
+		alarmSensor = config.electra.monitor;
+
+	if(data.event_type_id == 7)
+		alarmSensor = config.hestia.monitor;
+
+	if(data.event_type_id == 9)
+		alarmSensor = config.aretusa.monitor;
+
+	client.writeSingleRegister(alarmSensor, 1, function (response, error) {
 
 		if(error)
 			console.log(error);
 		else
-			station.maya.monitoring = 1;
+		{
+			if(data.event_type_id == 3)
+				station.maya.monitoring = 1;
+
+			if(data.event_type_id == 5)
+				station.electra.monitoring = 1;
+
+			if(data.event_type_id == 7)
+				station.hestia.monitoring = 1;
+
+			if(data.event_type_id == 9)
+				station.aretusa.monitoring = 1;
+		}
 
 	}.bind(this));
 
 });
 
-socket.on('deactivate-alarm-server', function () {
+socket.on('deactivate-alarm-server', function (data) {
 
-	client.writeSingleRegister(config.maya.monitor, 0, function (response, error) {
+	var alarmSensor = null;
+	
+	if(data.event_type_id == 4)
+		alarmSensor = config.maya.monitor;
+
+	if(data.event_type_id == 6)
+		alarmSensor = config.electra.monitor;
+
+	if(data.event_type_id == 8)
+		alarmSensor = config.hestia.monitor;
+
+	if(data.event_type_id == 10)
+		alarmSensor = config.aretusa.monitor;
+
+	console.log(alarmSensor);
+
+	client.writeSingleRegister(alarmSensor, 0, function (response, error) {
 
 		if(error)
 			console.log(error);
 		else
-			station.maya.monitor = 0;
+		{
+			if(data.event_type_id == 4)
+				station.maya.monitoring = 0;
+
+			if(data.event_type_id == 6)
+				station.electra.monitoring = 0;
+
+			if(data.event_type_id == 8)
+				station.hestia.monitoring = 0;
+
+			if(data.event_type_id == 10)
+				station.aretusa.monitoring = 0;
+		}
 
 	}.bind(this));
 
@@ -200,4 +255,46 @@ function polling() {
 			socket.emit('new-read', data);
 		}
     }.bind(this));
+}
+
+
+function init() {
+
+	console.log('Initialization...');
+
+	client.writeSingleRegister(config.maya.monitor, 1, function (response, error) {
+
+		if(error)
+			console.log(error);
+		else
+			station.maya.monitoring = 1;
+
+	}.bind(this));
+
+	client.writeSingleRegister(config.electra.monitor, 1, function (response, error) {
+
+		if(error)
+			console.log(error);
+		else
+			station.electra.monitoring = 1;
+
+	}.bind(this));
+
+	client.writeSingleRegister(config.hestia.monitor, 1, function (response, error) {
+
+		if(error)
+			console.log(error);
+		else
+			station.hestia.monitoring = 1;
+
+	}.bind(this));
+
+	client.writeSingleRegister(config.aretusa.monitor, 1, function (response, error) {
+
+		if(error)
+			console.log(error);
+		else
+			station.aretusa.monitoring = 1;
+
+	}.bind(this));
 }
