@@ -73,16 +73,16 @@ socket.on('activate-alarm-server', function (data) {
 
 	var alarmSensor = null;
 	
-	if(data.event_type_id == 3)
+	if(data.station_event.event_type_id == 3)
 		alarmSensor = config.maya.monitor;
 
-	if(data.event_type_id == 5)
+	if(data.station_event.event_type_id == 5)
 		alarmSensor = config.electra.monitor;
 
-	if(data.event_type_id == 7)
+	if(data.station_event.event_type_id == 7)
 		alarmSensor = config.hestia.monitor;
 
-	if(data.event_type_id == 9)
+	if(data.station_event.event_type_id == 9)
 		alarmSensor = config.aretusa.monitor;
 
 	client.writeSingleRegister(alarmSensor, 1, function (response, error) {
@@ -91,16 +91,16 @@ socket.on('activate-alarm-server', function (data) {
 			console.log(error);
 		else
 		{
-			if(data.event_type_id == 3)
+			if(data.station_event.event_type_id == 3)
 				station.maya.monitoring = 1;
 
-			if(data.event_type_id == 5)
+			if(data.station_event.event_type_id == 5)
 				station.electra.monitoring = 1;
 
-			if(data.event_type_id == 7)
+			if(data.station_event.event_type_id == 7)
 				station.hestia.monitoring = 1;
 
-			if(data.event_type_id == 9)
+			if(data.station_event.event_type_id == 9)
 				station.aretusa.monitoring = 1;
 		}
 
@@ -112,16 +112,16 @@ socket.on('deactivate-alarm-server', function (data) {
 
 	var alarmSensor = null;
 	
-	if(data.event_type_id == 4)
+	if(data.station_event.event_type_id == 4)
 		alarmSensor = config.maya.monitor;
 
-	if(data.event_type_id == 6)
+	if(data.station_event.event_type_id == 6)
 		alarmSensor = config.electra.monitor;
 
-	if(data.event_type_id == 8)
+	if(data.station_event.event_type_id == 8)
 		alarmSensor = config.hestia.monitor;
 
-	if(data.event_type_id == 10)
+	if(data.station_event.event_type_id == 10)
 		alarmSensor = config.aretusa.monitor;
 
 	console.log(alarmSensor);
@@ -132,16 +132,16 @@ socket.on('deactivate-alarm-server', function (data) {
 			console.log(error);
 		else
 		{
-			if(data.event_type_id == 4)
+			if(data.station_event.event_type_id == 4)
 				station.maya.monitoring = 0;
 
-			if(data.event_type_id == 6)
+			if(data.station_event.event_type_id == 6)
 				station.electra.monitoring = 0;
 
-			if(data.event_type_id == 8)
+			if(data.station_event.event_type_id == 8)
 				station.hestia.monitoring = 0;
 
-			if(data.event_type_id == 10)
+			if(data.station_event.event_type_id == 10)
 				station.aretusa.monitoring = 0;
 		}
 
