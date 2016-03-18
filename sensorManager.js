@@ -18,7 +18,7 @@ var sensorManager = function (mailService, config) {
 				};
 
 				console.log('alarm-triggered-maya');
-				//socket.emit('alarm-triggered', data);
+				socket.emit('alarm-triggered', data);
 			}
 
 			/*if(station.maya.monitoring == 0 && response.register[2] == 1)
@@ -77,7 +77,7 @@ var sensorManager = function (mailService, config) {
 				};
 
 				console.log('alarm-triggered-electra');
-				//socket.emit('alarm-triggered', data);
+				socket.emit('alarm-triggered', data);
 			}
 
 			/*if(station.electra.monitoring == 0 && response.register[5] == 1)
@@ -136,7 +136,7 @@ var sensorManager = function (mailService, config) {
 				};
 
 				console.log('alarm-triggered-hestia');
-				//socket.emit('alarm-triggered', data);
+				socket.emit('alarm-triggered', data);
 			}
 
 			/*if(station.hestia.monitoring == 0 && response.register[8] == 1)
@@ -195,7 +195,7 @@ var sensorManager = function (mailService, config) {
 				};
 
 				console.log('alarm-triggered-aretusa');
-				//socket.emit('alarm-triggered', data);
+				socket.emit('alarm-triggered', data);
 			}
 
 			/*if(station.aretusa.monitoring == 0 && response.register[11] == 1)
