@@ -57,6 +57,9 @@ var station = {
 		status: 0,
 		control: 0,
 	},
+	manualAlarm: {
+		status: 1,
+	}
 };
 
 init();
@@ -200,6 +203,7 @@ function monitoring() {
 			sensorManager.checkHestia(station, socket, response);
 			sensorManager.checkAretusa(station, socket, response);
 			sensorManager.checkVlt(station, socket, response);
+			sensorManager.checkManualAlarm(station, socket, response);
 
 			// Updating values
 			station.maya.status = response.register[0];
@@ -220,8 +224,11 @@ function monitoring() {
 
 			station.vlt.status = response.register[12];
 			station.vlt.control = response.register[14];
+
+			station.manualAlarm.status = response.register[15];
 		}
-		console.log(response);
+		console.log("\n");
+		console.log(response.register);
 		console.log(station);
 		console.log("\n");
     }.bind(this));
@@ -232,7 +239,7 @@ function polling() {
 	console.log('Polling data...');
 	var block = config.plc.dataBlockAddress;
 	var size = config.plc.dataBlockSize;
-	client.readHoldingRegister(16, 4, function (response, error) {
+	client.readHoldingRegister(17, 4, function (response, error) {
 
 		if(error)
 			console.log(error);

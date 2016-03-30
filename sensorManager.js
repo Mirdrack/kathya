@@ -21,44 +21,44 @@ var sensorManager = function (mailService, config) {
 				socket.emit('alarm-triggered', data);
 			}
 
-			/*if(station.maya.monitoring == 0 && response.register[2] == 1)
+
+			if(station.maya.status == 1 && response.register[0] == 0)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
-					event_type_id: 3,
+					event_type_id: 11,
 					ip_address: '127.0.0.1',
 				};
 
 				var data = {
-					event_type: 'alarm-activated',
-					message: 'Door Driver Room alarm has been activated',
+					event_type: 'sensor-change',
+					message: 'Door has been open',
 					event: event,
 				};	
 
-				//socket.emit('activate-alarm', data);
-				console.log('activate-alarm-m');
-			}*/
+				console.log('door-open-maya');
+				socket.emit('sensor-change', data);
+			}
 
-			/*if(station.maya.monitoring == 1 && response.register[2] == 0)
+			if(station.maya.status == 0 && response.register[0] == 1)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
-					event_type_id: 4,
+					event_type_id: 12,
 					ip_address: '127.0.0.1',
-					alarm_cooldown: config.defaultCooldown,
 				};
 
 				var data = {
-					event_type: 'alarm-deactivated',
-					message: 'Door Driver Room alarm has been deactivated',
+					event_type: 'sensor-change',
+					message: 'Door has been closed',
 					event: event,
-				};
+				};	
 
-				// socket.emit('deactivate-alarm', data);
-				console.log('deactivate-alarm-m');
-			}*/
+				console.log('door-closed-maya');
+				socket.emit('sensor-change', data);
+			}
 		},
 
 		checkElectra: function (station, socket, response) {
@@ -80,26 +80,26 @@ var sensorManager = function (mailService, config) {
 				socket.emit('alarm-triggered', data);
 			}
 
-			/*if(station.electra.monitoring == 0 && response.register[5] == 1)
+			if(station.electra.status == 1 && response.register[3] == 0)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
-					event_type_id: 5,
+					event_type_id: 15,
 					ip_address: '127.0.0.1',
 				};
 
 				var data = {
-					event_type: 'alarm-activated',
-					message: 'Move alarm has been activated',
+					event_type: 'sensor-change',
+					message: 'Move has been dectected by Electra',
 					event: event,
 				};	
 
-				console.log('activate-alarm-e');
-				// socket.emit('activate-alarm', data);
+				console.log('move-maya');
+				socket.emit('sensor-change', data);
 			}
 
-			if(station.electra.monitoring == 1 && response.register[5] == 0)
+			/*if(station.electra.monitoring == 1 && response.register[5] == 0)
 			{
 				var event = {
 					user_id: config.userId,
@@ -139,44 +139,43 @@ var sensorManager = function (mailService, config) {
 				socket.emit('alarm-triggered', data);
 			}
 
-			/*if(station.hestia.monitoring == 0 && response.register[8] == 1)
+			if(station.hestia.status == 1 && response.register[6] == 0)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
-					event_type_id: 7,
+					event_type_id: 13,
 					ip_address: '127.0.0.1',
 				};
 
 				var data = {
-					event_type: 'alarm-activated',
-					message: 'Door irrigation room alarm has been activated',
+					event_type: 'sensor-change',
+					message: 'Door has been open Hestia',
 					event: event,
 				};	
 
-				console.log('activate-alarm');
-				//socket.emit('activate-alarm', data);
+				console.log('door-open-hestia');
+				socket.emit('sensor-change', data);
 			}
 
-			if(station.hestia.monitoring == 1 && response.register[8] == 0)
+			if(station.hestia.status == 0 && response.register[6] == 1)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
-					event_type_id: 8,
+					event_type_id: 14,
 					ip_address: '127.0.0.1',
 				};
 
 				var data = {
-					event_type: 'alarm-deactivated',
-					message: 'Door irrigation room alarm has been deactivated',
-					alarm_cooldown: config.defaultCooldown,
+					event_type: 'sensor-change',
+					message: 'Door has been closed Hestia',
 					event: event,
-				};
+				};	
 
-				console.log('deactivate-alarm-h');
-				//socket.emit('deactivate-alarm', data);
-			}*/
+				console.log('door-closed-hestia');
+				socket.emit('sensor-change', data);
+			}
 		},
 
 		checkAretusa: function (station, socket, response) {
@@ -198,26 +197,26 @@ var sensorManager = function (mailService, config) {
 				socket.emit('alarm-triggered', data);
 			}
 
-			/*if(station.aretusa.monitoring == 0 && response.register[11] == 1)
+			if(station.aretusa.status == 1 && response.register[9] == 0)
 			{
 				var event = {
 					user_id: config.userId,
 					station_id: config.stationId,
-					event_type_id: 9,
+					event_type_id: 16,
 					ip_address: '127.0.0.1',
 				};
 
 				var data = {
-					event_type: 'alarm-activated',
-					message: 'Irrigation room move alarm has been activated',
+					event_type: 'sensor-change',
+					message: 'Move has been dectected by Aretusa',
 					event: event,
 				};	
 
-				console.log('activate-alarm-a');
-				//socket.emit('activate-alarm', data);
+				console.log('move-aretusa');
+				socket.emit('sensor-change', data);
 			}
 
-			if(station.aretusa.monitoring == 1 && response.register[11] == 0)
+			/*if(station.aretusa.monitoring == 1 && response.register[11] == 0)
 			{
 				var event = {
 					user_id: config.userId,
@@ -278,6 +277,47 @@ var sensorManager = function (mailService, config) {
 				//socket.emit('turn-off', data);
 			}
 		},
+
+		checkManualAlarm: function (station, socket, response) {
+
+			if(station.manualAlarm.status == 1 && response.register[15] == 0)
+			{
+				var event = {
+					user_id: config.userId,
+					station_id: config.stationId,
+					event_type_id: 17,
+					ip_address: '127.0.0.1',
+				};
+
+				var data = {
+					event_type: 'sensor-change',
+					message: 'Manual Alarm has been deactivated',
+					event: event,
+				};	
+
+				console.log('manual-alarm-deactivated');
+				socket.emit('sensor-change', data);
+			}
+
+			if(station.manualAlarm.status == 0 && response.register[15] == 1)
+			{
+				var event = {
+					user_id: config.userId,
+					station_id: config.stationId,
+					event_type_id: 18,
+					ip_address: '127.0.0.1',
+				};
+
+				var data = {
+					event_type: 'sensor-change',
+					message: 'Manual Alarm has been activated',
+					event: event,
+				};	
+
+				console.log('manual-alarm-activated');
+				socket.emit('sensor-change', data);
+			}			
+		}
 	};
 
 	return manager;
