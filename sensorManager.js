@@ -239,7 +239,7 @@ var sensorManager = function (mailService, config) {
 
 		checkVlt: function (station, socket, response) {
 
-			if(station.control == 0 && response.register[14] == 1)
+			if(station.vlt.status == 0 && response.register[12] == 1)
 			{
 				var event = {
 					user_id: config.userId,
@@ -255,10 +255,10 @@ var sensorManager = function (mailService, config) {
 				};
 
 				console.log('turn-on');
-				//socket.emit('turn-on', data);
+				socket.emit('turn-on', data);
 			}
 
-			if(station.control == 1 && response.register[14] == 0)
+			if(station.vlt.status == 1 && response.register[12] == 0)
 			{
 				var event = {
 					user_id: config.userId,
@@ -274,7 +274,7 @@ var sensorManager = function (mailService, config) {
 				};
 
 				console.log('turn-off');
-				//socket.emit('turn-off', data);
+				socket.emit('turn-off', data);
 			}
 		},
 
