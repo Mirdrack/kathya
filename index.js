@@ -182,6 +182,11 @@ socket.on('turn-off-server', function (data) {
     }.bind(this));
 });
 
+socket.on('disconnect', function (data) {
+
+	console.log('Disconnected from Samantha');
+});
+
 /*
 var closeClient = function () {
 
