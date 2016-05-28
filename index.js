@@ -1,5 +1,11 @@
 var config = require('./config');
-var socket = require('socket.io-client')(config.socketAddress, { query: 'clientName=Kathya' });
+var socket = require('socket.io-client')(config.socketAddress, {
+	query: 'clientName=Kathya',
+	reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax : 5000,
+    reconnectionAttempts: 99999
+});
 var nodemailer = require('nodemailer');
 var modbus = require('jsmodbus');
 var util = require('util');
