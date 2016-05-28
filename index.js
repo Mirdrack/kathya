@@ -4,7 +4,8 @@ var socket = require('socket.io-client')(config.socketAddress, {
 	reconnection: true,
     reconnectionDelay: 1000,
     reconnectionDelayMax : 5000,
-    reconnectionAttempts: 99999
+    reconnectionAttempts: 99999,
+    timeout: 3000,
 });
 var nodemailer = require('nodemailer');
 var modbus = require('jsmodbus');
