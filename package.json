@@ -9,10 +9,11 @@
   "author": "mirdrack",
   "license": "ISC",
   "dependencies": {
-    "jsmodbus": "^0.5.1",
+    "jsmodbus": "^1.0.4",
     "nodemailer": "^2.1.0",
     "request": "^2.69.0",
     "smtp-connection": "^2.1.0",
-    "socket.io-client": "^1.4.5"
+    "socket.io-client": "^1.4.5",
+    "stampit": "^2.1.1"
   }
 }
